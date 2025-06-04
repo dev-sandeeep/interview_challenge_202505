@@ -17,14 +17,23 @@ export function formatDate(date: Date | string): string {
 
 /**
  * Format a date to a relative string (e.g., "2 days ago", "just now")
+ * Fixed to handle timezone issues properly
  */
 export function formatRelativeTime(date: Date | string): string {
   const dateObj = typeof date === "string" ? new Date(date) : date;
   const now = new Date();
-  const diffInSeconds = Math.floor((dateObj.getTime() - now.getTime()) / 1000);
+  
+  // Calculate difference in milliseconds, then convert to seconds
+  const diffInMs = dateObj.getTime() - now.getTime();
+  const diffInSeconds = Math.floor(diffInMs / 1000);
   const diffInMinutes = Math.floor(diffInSeconds / 60);
   const diffInHours = Math.floor(diffInMinutes / 60);
   const diffInDays = Math.floor(diffInHours / 24);
+
+  // For very recent timestamps (within 2 minutes), always show "just now"
+  if (Math.abs(diffInSeconds) < 120) {
+    return "just now";
+  }
 
   if (Math.abs(diffInDays) > 30) {
     return formatDate(dateObj);
