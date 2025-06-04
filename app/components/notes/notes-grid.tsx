@@ -1,7 +1,10 @@
 import { type Note } from "~/db/schema";
 import { NoteCard } from "./note-card";
 
-type SerializedNote = Omit<Note, "createdAt"> & { createdAt: string };
+type SerializedNote = Omit<Note, "createdAt"> & { 
+  createdAt: string;
+  isFavorited: boolean;
+};
 
 interface NotesGridProps {
   notes: SerializedNote[];

@@ -8,8 +8,12 @@ import {
 } from "~/components/ui/card";
 import { type Note } from "~/db/schema";
 import { formatRelativeTime } from "~/utils/date";
+import { FavoriteButton } from "./favorite-button";
 
-type SerializedNote = Omit<Note, "createdAt"> & { createdAt: string };
+type SerializedNote = Omit<Note, "createdAt"> & { 
+  createdAt: string;
+  isFavorited: boolean;
+};
 
 interface NoteCardProps {
   note: SerializedNote;
@@ -24,6 +28,7 @@ export function NoteCard({ note }: NoteCardProps) {
             {note.title}
           </Link>
         </CardTitle>
+        <FavoriteButton noteId={note.id} initialIsFavorited={note.isFavorited} />
       </CardHeader>
       <CardContent className="flex-1">
         <p className="line-clamp-3 text-sm text-muted-foreground">

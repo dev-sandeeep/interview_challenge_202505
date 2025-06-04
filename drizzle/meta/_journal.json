@@ -8,6 +8,13 @@
       "when": 1747990096598,
       "tag": "0000_heavy_black_cat",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1748975168028,
+      "tag": "0001_premium_dragon_lord",
+      "breakpoints": true
     }
   ]
 }

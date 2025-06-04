@@ -44,16 +44,43 @@ export const notes = pgTable("notes", {
 });
 
 /**
+ * Favorites table schema
+ */
+export const favorites = pgTable("favorites", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id")
+    .references(() => users.id)
+    .notNull(),
+  noteId: integer("note_id")
+    .references(() => notes.id)
+    .notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+/**
  * Relations configuration
  */
 export const usersRelations = relations(users, ({ many }) => ({
   notes: many(notes),
+  favorites: many(favorites),
 }));
 
-export const notesRelations = relations(notes, ({ one }) => ({
+export const notesRelations = relations(notes, ({ one, many }) => ({
   user: one(users, {
     fields: [notes.userId],
     references: [users.id],
+  }),
+  favorites: many(favorites),
+}));
+
+export const favoritesRelations = relations(favorites, ({ one }) => ({
+  user: one(users, {
+    fields: [favorites.userId],
+    references: [users.id],
+  }),
+  note: one(notes, {
+    fields: [favorites.noteId],
+    references: [notes.id],
   }),
 }));
 
@@ -65,6 +92,9 @@ export type NewUser = InferInsertModel<typeof users>;
 
 export type Note = InferSelectModel<typeof notes>;
 export type NewNote = InferInsertModel<typeof notes>;
+
+export type Favorite = InferSelectModel<typeof favorites>;
+export type NewFavorite = InferInsertModel<typeof favorites>;
 
 // Configure Drizzle with prepared queries
 export const queries = {
@@ -88,5 +118,18 @@ export const queries = {
         .select()
         .from(notes)
         .where(sql`${notes.userId} = ${userId}`),
+  },
+  favorites: {
+    findByUserId: (userId: number) =>
+      db
+        .select()
+        .from(favorites)
+        .where(sql`${favorites.userId} = ${userId}`),
+    findByUserIdAndNoteId: (userId: number, noteId: number) =>
+      db
+        .select()
+        .from(favorites)
+        .where(sql`${favorites.userId} = ${userId} AND ${favorites.noteId} = ${noteId}`)
+        .limit(1),
   },
 };
