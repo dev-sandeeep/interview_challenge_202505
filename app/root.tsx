@@ -34,7 +34,7 @@ export default function App() {
         </RootLayout>
         <ScrollRestoration />
         <Scripts />
-        <LiveReload />
+        {/* <LiveReload /> */}
       </body>
     </html>
   );

@@ -7,11 +7,15 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const { userId } = await requireAuthApi(request);
 
   try {
-    const { notes } = await getNotesByUserId(userId);
+    const url = new URL(request.url);
+    const page = parseInt(url.searchParams.get("page") || "1", 10);
+    const limit = parseInt(url.searchParams.get("limit") || "12", 10);
+    
+    const paginationData = await getNotesByUserId(userId, { page, limit });
 
     return json({
       success: true,
-      notes,
+      ...paginationData,
     });
   } catch (error) {
     console.error("Failed to fetch notes:", error);

@@ -1,5 +1,5 @@
 import { json, redirect } from "@remix-run/node";
-import { getUserId } from "~/utils/session.server";
+import { getUserId } from "~/services/session.server";
 import { getUserById } from "~/services/auth.server";
 
 export interface AuthContext {
