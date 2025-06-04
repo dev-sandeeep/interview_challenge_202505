@@ -1,3 +1,44 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities; 
+@tailwind utilities;
+
+/* Custom animations for toast notifications */
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.3) translate(100%, 0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05) translate(0, 0);
+  }
+  70% {
+    transform: scale(0.9) translate(0, 0);
+  }
+  100% {
+    transform: scale(1) translate(0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(34, 197, 94, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.6), 0 0 30px rgba(34, 197, 94, 0.4);
+  }
+}
+
+@keyframes starPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+/* Star animation for favorite button */
+.star-favorite {
+  animation: starPulse 0.3s ease-in-out;
+} 

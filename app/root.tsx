@@ -9,6 +9,7 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 import { RootLayout } from "~/components/layout/root-layout";
+import { ToastProvider } from "~/components/ui/toast";
 import { getUserId } from "~/services/session.server";
 import "~/styles/tailwind.css";
 
@@ -29,9 +30,11 @@ export default function App() {
         <Links />
       </head>
       <body className="h-full">
-        <RootLayout isAuthenticated={isAuthenticated}>
-          <Outlet />
-        </RootLayout>
+        <ToastProvider>
+          <RootLayout isAuthenticated={isAuthenticated}>
+            <Outlet />
+          </RootLayout>
+        </ToastProvider>
         <ScrollRestoration />
         <Scripts />
         {/* <LiveReload /> */}

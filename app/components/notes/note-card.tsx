@@ -22,7 +22,7 @@ interface NoteCardProps {
 export function NoteCard({ note }: NoteCardProps) {
   return (
     <Card className="flex h-full flex-col">
-      <CardHeader className="flex-none">
+      <CardHeader className="flex flex-row justify-between items-center">
         <CardTitle className="line-clamp-2">
           <Link to={`/notes/${note.id}`} className="hover:underline">
             {note.title}
