@@ -1,5 +1,5 @@
 import { db } from "./schema";
-import { users, notes, type NewUser, type NewNote } from "./schema";
+import { users, notes, favorites, type NewUser, type NewNote } from "./schema";
 import { Pool } from "pg";
 import * as dotenv from "dotenv";
 import { faker } from "@faker-js/faker";
@@ -126,10 +126,11 @@ async function seed() {
   console.log("🌱 Starting seeding...");
 
   try {
-    // Clear existing data
+    // Clear existing data in the correct order to respect foreign key constraints
     console.log("Clearing existing data...");
-    await db.delete(notes);
-    await db.delete(users);
+    await db.delete(favorites);  // Delete favorites first
+    await db.delete(notes);      // Then delete notes
+    await db.delete(users);      // Finally delete users
 
     // Insert test users
     console.log("Creating test users...");
